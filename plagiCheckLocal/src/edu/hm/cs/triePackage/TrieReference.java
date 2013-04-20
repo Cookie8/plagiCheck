@@ -1,5 +1,8 @@
 package edu.hm.cs.triePackage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class TrieReference implements ITrieReference {
 	
 	static final boolean traceFlag = false;
@@ -7,6 +10,8 @@ class TrieReference implements ITrieReference {
 	final private boolean found;
 	final private Object value;
 	final int depth;
+	
+	HashMap data = new HashMap<Integer, Object>();
 	
 	/**
 	 * Konstruktor
@@ -19,19 +24,20 @@ class TrieReference implements ITrieReference {
 		this.value = value;
 		this.depth = depth;
 		this.found = found;
+		
+		data.put(this.depth, this.value);
 	}
 	
 	
 	@Override
 	public boolean getFound() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.getFound();
 	}
 
 	@Override
 	public Object getValue() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return data.get(this.getDepth());
 	}
 
 

@@ -21,6 +21,8 @@ public class Main {
 		
 		ITrie trie = r.wordsToTrie(lines);
 		
+//		trie.get("Hallo");
+		
 		
 		
 
@@ -47,7 +49,7 @@ public class Main {
 //		trie.put(str3, new Integer(4713));
 //		trie.put(str4, new Integer(4714));
 		
-		trie.printTrie();
+//		trie.printTrie();
 	}
 
 }

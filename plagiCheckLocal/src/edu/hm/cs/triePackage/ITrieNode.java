@@ -15,4 +15,6 @@ interface ITrieNode {
 	void printTrieNode();
 	
 	String toString();
+
+	Object recursiveLookUp(Iterator itr);
 }

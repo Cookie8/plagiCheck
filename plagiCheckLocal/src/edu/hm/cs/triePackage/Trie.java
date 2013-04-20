@@ -50,8 +50,16 @@ class Trie implements ITrie {
 
 	@Override
 	public Object get(String str) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ArrayList aList = new ArrayList();
+		
+		for(int charNumber=0; charNumber<str.length(); charNumber++) {
+			aList.add(str.charAt(charNumber));
+		}
+		
+		Iterator aItr = aList.iterator();
+
+		return this.root.recursiveLookUp(aItr);
 	}
 
 	@Override

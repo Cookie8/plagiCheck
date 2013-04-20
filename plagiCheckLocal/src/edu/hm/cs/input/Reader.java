@@ -64,7 +64,7 @@ public class Reader implements IReader {
 		Iterator<String> itr2 = words.iterator();
 		while(itr2.hasNext()) {
 			String s = itr2.next();
-			System.out.println(s);
+//			System.out.println(s);
 		}
 		return words;
 	}
@@ -73,10 +73,21 @@ public class Reader implements IReader {
 		
 		ITrie trie = new TrieFactory().createTrie();
 		Iterator<String> itr = words.iterator();
+		int counter = 1;
 		
 		while(itr.hasNext()) {
 			String str = itr.next().toString();
-			trie.put(str, 0);
+			
+			if(trie.get(str)!= null) {
+				System.out.println(str+ "\that Value " +trie.get(str));
+				trie.put(str, trie.get(str));
+			}
+			else {
+				System.out.println(str+ "\that Value " +counter);
+				trie.put(str, counter);
+				counter++;
+			}
+			
 		}
 		return trie;
 	}

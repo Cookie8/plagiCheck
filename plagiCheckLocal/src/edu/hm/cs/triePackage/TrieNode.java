@@ -25,6 +25,8 @@ class TrieNode implements ITrieNode {
 	/** Tiefe in der Baumstruktur */
 	int depth;
 	
+	int counter;
+	
 	/**
 	 * Konstruktor
 	 * 
@@ -59,7 +61,7 @@ class TrieNode implements ITrieNode {
 				
 				this.partOfKeyToTrieNode.put(integerToPut, new TrieNode(this, inDepth));
 			
-//				System.out.println("Dieser Buchstabe war noch nicht drinnen: \"" + Character.forDigit(integerToPut, integerToPut+1) + "\" wurde eingef�gt, in der " +
+//				System.out.println("Dieser Buchstabe war noch nicht drinnen: " +integerToPut+" wurde eingefügt, in der " +
 //						"Tiefe von " + this.getDepth());
 				
 				target = partOfKeyToTrieNode.get(integerToPut);
@@ -68,7 +70,7 @@ class TrieNode implements ITrieNode {
 			else {
 				target = partOfKeyToTrieNode.get(integerToPut);
 				
-//				System.out.println("Der Buchstabe war schon drinnen " +Character.forDigit(integerToPut, integerToPut+1)+ " in der Tiefe von " +inDepth);
+//				System.out.println("Der Buchstabe war schon drinnen " +integerToPut+ " in der Tiefe von " +inDepth);
 				
 				return target.recursiveInsert(itr, value);
 			}

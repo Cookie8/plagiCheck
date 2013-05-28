@@ -4,44 +4,67 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.hm.cs.triePackage.ITrie;
-import edu.hm.cs.triePackage.TrieFactory;
+import edu.hm.cs.lexer.BaseLexer;
+import edu.hm.cs.token.IToken;
 
 public class Reader implements IReader {
+	
+	String pfad;
 
+	public Reader(String inPfad) {
+		this.pfad = inPfad;
+	}
+	
 	@Override
-	public ArrayList<String> readFile() {
-
-		ArrayList<String> lines = new ArrayList<String>();
-
+	public ArrayList<IToken> readFile(String pfad) {
+		
+		BaseLexer lexer;
+		ArrayList<IToken> tokens = new ArrayList<IToken>();
+		
 		try {
-			FileReader fr = new FileReader(
-					"/Users/Cookie/GitHub/plagiCheck/plagiCheckLocal/Test.txt");
-			BufferedReader br = new BufferedReader(fr);
-			String stringline;
-
-			while ((stringline = br.readLine()) != null) {
-				lines.add(stringline);
-			}
-			br.close();
-		} 
-		catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		catch (IOException e) {
+			lexer = new BaseLexer(new FileReader(pfad));
+			
+			tokens = lexer.getToken();
+				
+		}
+		catch(FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return getWords(lines);
-	}
-	
-	ArrayList<String> getWords(ArrayList<String> lines) {
 		
+		return tokens;
+		
+		
+		
+//		ArrayList<String> lines = new ArrayList<String>();
+//		
+//		try {
+//			FileReader file = new FileReader(pfad);
+//			
+//			BufferedReader br = new BufferedReader(file);
+//			String stringLine;
+//
+//			while ((stringLine = br.readLine()) != null) {
+//				lines.add(stringLine);
+//			}
+//			br.close();
+//		}
+//		catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
+//		catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return getWords(lines);
+	}
+
+	private ArrayList<String> getWords(ArrayList<String> lines) {
 		ArrayList<String> words = new ArrayList<String>();
 		Iterator<String> itr = lines.iterator();
 		
@@ -50,14 +73,15 @@ public class Reader implements IReader {
 			String[] wordString = string.split(" ");
 			
 			for(int i=0; i<wordString.length; i++) {
+				words.add(wordString[i]);
 				
-				if(wordString[i].contains(".")) {
-					String s = wordString[i].substring(0, wordString[i].length() -1);
-					words.add(s);
-				}
-				else {
-					words.add(wordString[i]);
-				}
+//				if(wordString[i].contains(".")) {
+//					String s = wordString[i].substring(0, wordString[i].length() -1);
+//					words.add(s);
+//				}
+//				else {
+//					words.add(wordString[i]);
+//				}
 			}
 		}
 		
@@ -68,27 +92,9 @@ public class Reader implements IReader {
 		}
 		return words;
 	}
-	
-	public ITrie wordsToTrie(ArrayList<String> words) {
-		
-		ITrie trie = new TrieFactory().createTrie();
-		Iterator<String> itr = words.iterator();
-		int counter = 1;
-		
-		while(itr.hasNext()) {
-			String str = itr.next().toString();
-			
-			if(trie.get(str)!= null) {
-				System.out.println(str+ "\that Value " +trie.get(str));
-				trie.put(str, trie.get(str));
-			}
-			else {
-				System.out.println(str+ "\that Value " +counter);
-				trie.put(str, counter);
-				counter++;
-			}
-			
-		}
-		return trie;
+
+	public String getPfad() {
+		return pfad;
 	}
+
 }

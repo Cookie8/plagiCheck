@@ -1,7 +1,7 @@
 package edu.hm.cs.triePackage;
 
 interface ITrieReference {
-
+	
 	/**
 	 * 
 	 * @return

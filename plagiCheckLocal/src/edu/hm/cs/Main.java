@@ -3,11 +3,11 @@ package edu.hm.cs;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.hm.cs.aux.Aux;
 import edu.hm.cs.input.IReader;
 import edu.hm.cs.input.Reader;
+import edu.hm.cs.token.IToken;
 import edu.hm.cs.triePackage.ITrie;
-import edu.hm.cs.triePackage.TrieFactory;
-
 
 public class Main {
 
@@ -16,16 +16,24 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		IReader r = new Reader();
-		ArrayList<String> lines = r.readFile();
+		IReader reader = new Reader(args[0]);
+		ArrayList<IToken> tokens = reader.readFile(reader.getPfad());
+		ArrayList<ITrie> tries = new Aux().wordsToTrie(tokens);
 		
-		ITrie trie = r.wordsToTrie(lines);
+		Iterator<ITrie> itr = tries.iterator();
 		
-//		trie.get("Hallo");
+		while(itr.hasNext()) {
+			ITrie trie = itr.next();
+			
+			if(trie.rootHasValue()) {
+				trie.printTrie();
+			}	
+		}
 		
 		
-		
-
+//		ITrieFactory factory = new TrieFactory();
+//		ITrie trie = factory.createTrie();
+//		IActionAtInsert action = new StringCoding();
 		
 		
 //		String str = "wolf";
@@ -33,23 +41,26 @@ public class Main {
 //		String str3 = "Hallo";
 //		String str4 = "Affe";
 		
-		
-		
-		
-//		ArrayList aL = new ArrayList();	
-//		for(int i=0; i<str.length(); i++) {
-//			aL.add(str.charAt(i));
-//		}	
-//		Iterator itr = aL.iterator();
+//		String[] strings = new String[] {"wolf", "wo", "Hallo", "Affe"};
 //		
 //		
 //		
-//		trie.put(itr, new Integer(4711));
-//		trie.put(str2, new Integer(4712));
-//		trie.put(str3, new Integer(4713));
-//		trie.put(str4, new Integer(4714));
+//		for(int i=0; i<strings.length; i++) {
+//			ArrayList al = new ArrayList();
+//			for(int j=0; j<strings[i].length(); j++) {
+//				al.add(strings[i].charAt(j));
+//			}
+//			Iterator itr = al.iterator();
+//			trie.insert(itr, action);
+//		}
+		
+		
+		
+//		trie.put(str2, 2);
+//		trie.put(str3, 3);
+//		trie.put(str4, 4);
 		
 //		trie.printTrie();
-	}
 
+	}
 }

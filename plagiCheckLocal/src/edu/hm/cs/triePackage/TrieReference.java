@@ -1,49 +1,48 @@
 package edu.hm.cs.triePackage;
 
 import java.util.HashMap;
-import java.util.Map;
 
 class TrieReference implements ITrieReference {
-	
+
 	static final boolean traceFlag = false;
-	
+
 	final private boolean found;
 	final private Object value;
-	final int depth;
-	
-	HashMap data = new HashMap<Integer, Object>();
-	
+	final private int depth;
+
+	HashMap<Integer, Object> data = new HashMap<Integer, Object>();
+
 	/**
 	 * Konstruktor
 	 * 
-	 * @param value
-	 * @param depth
-	 * @param found
+	 * @param inValue
+	 *            der Value des Wortes
+	 * @param inDepth
+	 *            die Tiefe im Baum
+	 * @param inFound
+	 *            <code>true</code> falls das Wort gefunden wurde,
+	 *            <code>false</code> sonst
 	 */
-	public TrieReference(Object value, int depth, boolean found) {
-		this.value = value;
-		this.depth = depth;
-		this.found = found;
-		
+	public TrieReference(Object inValue, int inDepth, boolean inFound) {
+		this.value = inValue;
+		this.depth = inDepth;
+		this.found = inFound;
+
 		data.put(this.depth, this.value);
 	}
-	
-	
+
 	@Override
 	public boolean getFound() {
-		return this.getFound();
+		return this.found;
 	}
 
 	@Override
 	public Object getValue() {
-		
-		return data.get(this.getDepth());
+		return this.value;
 	}
-
 
 	@Override
 	public int getDepth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.depth;
 	}
 }

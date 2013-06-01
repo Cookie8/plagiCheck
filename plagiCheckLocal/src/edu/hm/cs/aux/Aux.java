@@ -32,6 +32,9 @@ public class Aux {
 		ITrie whitespaceTrie = new TrieFactory().createTrie();
 		IActionAtInsert whitespaceAction = new StringCoding();
 		
+		ITrie colonTrie = new TrieFactory().createTrie();
+		IActionAtInsert colonAction = new StringCoding();
+		
 		ITrie commaTrie = new TrieFactory().createTrie();
 		IActionAtInsert commaAction = new StringCoding();
 		
@@ -56,11 +59,14 @@ public class Aux {
 			else if(token.getType().equals(LexerState.FLOAT)) {
 				floatTrie.put(token.getValue(), floatAction);
 			}
-			else if(token.getType().equals(LexerState.WHITESPACE)) {
+			else if(token.getType().equals(LexerState.WS)) {
 				whitespaceTrie.put(token.getValue(), whitespaceAction);
 			}
 			else if(token.getType().equals(LexerState.COMMA)) {
 				commaTrie.put(token.getValue(), commaAction);
+			}
+			else if(token.getType().equals(LexerState.COLON)) {
+				colonTrie.put(token.getValue(), colonAction);
 			}
 			else if(token.getType().equals(LexerState.SPECIALCHAR)) {
 				specialCharTrie.put(token.getValue(), specialCharAction);
@@ -76,6 +82,7 @@ public class Aux {
 		trieList.add(floatTrie);
 		trieList.add(whitespaceTrie);
 		trieList.add(commaTrie);
+		trieList.add(colonTrie);
 		trieList.add(specialCharTrie);
 		trieList.add(unknownTrie);
 		

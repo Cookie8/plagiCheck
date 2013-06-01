@@ -1,5 +1,5 @@
 package edu.hm.cs.lexer;
 
 public enum LexerState {
-	READY, ID, WHITESPACE, INT, FLOAT, DATE, COMMA, EOF, UNKNOWN, SPECIALCHAR;
+	READY, ID, WS, INT, FLOAT, DATE, COMMA, COLON, EOF, UNKNOWN, SPECIALCHAR;
 }

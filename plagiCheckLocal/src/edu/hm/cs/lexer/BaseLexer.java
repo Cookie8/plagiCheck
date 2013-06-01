@@ -17,6 +17,7 @@ public class BaseLexer implements ILexer {
 	int keepComma = 0;
 	char toGetLexerState;
 	int intToGetLexerState;
+	int tokenCounter = 0;
 
 	/**
 	 * Kostruktor
@@ -30,11 +31,14 @@ public class BaseLexer implements ILexer {
 
 	@Override
 	public ArrayList<IToken> getToken() {
+		
+		System.out.println("\n\n**************** Token-Ausgabe ****************\n");
 
 		int symbolValue = 0;
 		LexerState oldState = LexerState.READY;
 		String line = "";
 		ArrayList<IToken> tokens = new ArrayList<IToken>();
+		IToken actualToken;
 		
 		while(!isEOF) {
 			try {
@@ -43,7 +47,11 @@ public class BaseLexer implements ILexer {
 						line = line + (char) keepComma;
 						oldState = getLexerState(keepComma);
 						keepComma = 0;
-						tokens.add(new Token(oldState, line));
+						
+						actualToken = new Token(oldState, line);
+						tokens.add(actualToken);
+						printToken(actualToken);
+						
 						line = ""+ (char)overlap;
 						oldState = lexerStateIs;
 					}
@@ -66,21 +74,27 @@ public class BaseLexer implements ILexer {
 						
 						if(isDigit(toGetLexerState) && keepComma != 0) {
 							oldState = getLexerState(toGetLexerState);
-							tokens.add(new Token(oldState, line));
+							
+							actualToken = new Token(oldState, line); 							
+							tokens.add(actualToken);
+							printToken(actualToken);
+							
 						}
 						else {
-							tokens.add(new Token(oldState, line));
+							actualToken = new Token(oldState, line); 							
+							tokens.add(actualToken);
+							printToken(actualToken);
 						}
 						
 						line = "";
 						break;
 					}
-					else if(lexerStateIs == LexerState.FLOAT && isComma(symbolValue)) {
+					else if(lexerStateIs == LexerState.FLOAT && (isComma(symbolValue) || isColon(symbolValue))) {
 						keepComma = symbolValue;
 						oldState = lexerStateIs; 
 					}
 					else if((lexerStateIs == LexerState.INT || lexerStateIs == LexerState.FLOAT) && 
-							isDigit(symbolValue) && isComma(keepComma)) {
+							isDigit(symbolValue) && (isComma(keepComma) || isColon(keepComma))) {
 						line = line + (char)keepComma + (char)symbolValue;
 						keepComma = 0;
 						oldState = lexerStateIs;
@@ -98,15 +112,23 @@ public class BaseLexer implements ILexer {
 						toGetLexerState = line.charAt(line.length()-1);
 						intToGetLexerState = toGetLexerState;
 						lexerStateIs = getLexerState(intToGetLexerState);
-						tokens.add(new Token(lexerStateIs, line));
 						
+						actualToken = new Token(lexerStateIs, line); 						
+						tokens.add(actualToken);
+						printToken(actualToken);
+												
 						lexerStateIs = getLexerState(keepComma);
 						line = "" + (char)keepComma;
-						tokens.add(new Token(lexerStateIs, line));
+						
+						actualToken = new Token(lexerStateIs, line); 
+						tokens.add(actualToken);
+						printToken(actualToken);
 
 					}
 					else {
-						tokens.add(new Token(lexerStateIs, line));
+						actualToken = new Token(lexerStateIs, line); 						
+						tokens.add(actualToken);
+						printToken(actualToken);
 					}
 					
 					isEOF = true;
@@ -124,11 +146,32 @@ public class BaseLexer implements ILexer {
 		return tokens;
 	}
 
+	private void printToken(IToken actualToken) {
+		
+		System.out.print("(\"");
+		
+		
+		if(actualToken.getValue().equals("\n")) {
+			System.out.println("\\n\", " +actualToken.getType()+ ")\n");
+		}
+		else {
+			System.out.print(actualToken.getValue()+ "\", " +actualToken.getType()+ ") ");
+		}
+		
+		if(tokenCounter == 5) {
+			System.out.println();
+			tokenCounter = 0;
+		}
+		else {
+			tokenCounter++;
+		}
+	}
+
 	private boolean checkLexerChageState(LexerState oldState, String line) {
 		if(oldState == LexerState.READY)  {
 			return false;
 		}
-		else if(oldState == LexerState.INT && lexerStateIs == LexerState.COMMA) {
+		else if(oldState == LexerState.INT && (lexerStateIs == LexerState.COMMA || lexerStateIs == LexerState.COLON)) {
 			lexerStateIs = LexerState.FLOAT;
 			return false;
 		}
@@ -137,7 +180,7 @@ public class BaseLexer implements ILexer {
 			return false;
 		}
 		else if(oldState == LexerState.FLOAT
-				&& lexerStateIs == LexerState.COMMA) {
+				&& (lexerStateIs == LexerState.COMMA || lexerStateIs == LexerState.COLON)) {
 			lexerStateIs = LexerState.DATE;
 			return false;
 		}
@@ -162,11 +205,14 @@ public class BaseLexer implements ILexer {
 		if(isLetter(value)) {
 			return LexerState.ID;
 		}
+		else if(isColon(value)) {
+			return LexerState.COLON;
+		}
 		else if(isComma(value)) {
 			return LexerState.COMMA;
 		}
 		else if(isWhitSpace(value)) {
-			return LexerState.WHITESPACE;
+			return LexerState.WS;
 		}
 		else if(isDigit(value)) {
 			return LexerState.INT;
@@ -176,6 +222,15 @@ public class BaseLexer implements ILexer {
 		}
 		else {
 			throw new IllegalLexerException();
+		}
+	}
+
+	private boolean isColon(int value) {
+		if(value == 46) {
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 
@@ -215,8 +270,7 @@ public class BaseLexer implements ILexer {
 	}
 
 	private boolean isComma(int value) {
-		// Komma oder Punkt
-		if(value == 44 || value == 46) {
+		if(value == 44) {
 			return true;
 		}
 		else {

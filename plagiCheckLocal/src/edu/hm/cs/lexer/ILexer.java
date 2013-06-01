@@ -7,5 +7,6 @@ import edu.hm.cs.token.IToken;
 public interface ILexer {
 	
 	ArrayList<IToken> getToken();
+	
 	boolean isEOF();
 }

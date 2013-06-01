@@ -56,8 +56,6 @@ class Trie implements ITrie {
 			}
 
 			Iterator itrToPut = listOfCharacters.iterator();
-			// setOfITrieReferences
-			// .add(this.root.recursiveInsert(itrToPut, value));
 		}
 
 		return setOfITrieReferences;
@@ -119,94 +117,10 @@ class Trie implements ITrie {
 	}
 
 	@Override
-	public void printTrie() {
-		
-
+	public void printTrie() {		
 		System.out.print("\n=============== Baumausgabe ===============\n");
-
-//		if(isCharacter(this.root.getSymbol())) {
-//			System.out.print("Baumausgabe der ID-TOKENS ");
-//		}
-//		else if(getDate(rootIter).matches("\\d{2}\\.\\d{2}\\.\\d{4}")) {
-//			System.out.print("Baumausgabe der DATE-TOKENS ");
-//		}
-		
-//		System.out.println("===============\n");
 		this.root.printTrieNode();
 	}
-
-//	private String getDate(Iterator iter) {
-//		
-//		ITrie target;
-//		String builtDate = "";
-//		
-//		if(iter.hasNext()) {
-//			int next = (int) iter.next();
-//			char character = (char) next;
-//			builtDate = builtDate + character;
-//			
-//			if(!this.root.getPartOfKeyToTrieNode().containsKey(next)) {
-//				return null;
-//			}
-//			else {
-//				Iterator itr = this.root.getPartOfKeyToTrieNode().get(next).getPartOfKeyToTrieNode().keySet().iterator();
-//				return this.getDate(itr);
-//			}
-//		}
-//		else {
-//			return builtDate;
-//		}
-		
-//		Iterator itr = partOfKey.keySet().iterator();
-//		String date = "";
-//		Iterator itr2;
-//		
-//		do {
-//			int next = (int) itr.next();
-//			char character = (char) next;
-//			date = date + character;
-//			Map<Comparable, ITrieNode> newPart = partOfKey.get(next).getPartOfKeyToTrieNode();
-//			itr2 = newPart.keySet().iterator();
-//		}
-//		while(itr2.hasNext());
-//			
-//			
-//		
-//		return date;
-		
-//		String date = "";
-//		date = date + toBuild;
-//		String state = "";
-//		
-//		while(itr.hasNext()) {
-//			int nextAsInt = (int) itr.next();
-//			char character = (char) nextAsInt;
-//			String checkMapValue = ""+character;
-//			date = date + character;
-//			
-//			if(partOfKey.get(nextAsInt).getValue() == null && checkMapValue.length() >= 1) {
-//				state = getDate(partOfKey.get(nextAsInt).getPartOfKeyToTrieNode(), date);
-//			}
-//		}
-//		
-//		return state;
-
-//	}
-
-//	private String getDate(Object root) {
-//		String date = "";
-////		ITrieNode next = (ITrieNode) root;
-//		Iterator itr = 
-//		
-//		
-////		if(next.getSymbol() != null) {
-////			date = date +  next.getSymbol();
-////			return getDate(next.getPartOfKeyToTrieNode().get(key));
-////		}
-////		else {
-////			return date;
-////		}
-//	}
 
 	private boolean isDigit(Comparable symbol) {
 		char character = (Character) symbol;

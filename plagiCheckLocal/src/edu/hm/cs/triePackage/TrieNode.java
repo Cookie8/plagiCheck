@@ -90,7 +90,7 @@ class TrieNode implements ITrieNode {
 			int inInteger = (int) key.next();
 			Character buchstabe = (char) inInteger;
 
-			System.out.print(einrueckung(this.getDepth()));	// + buchstabe);
+			System.out.print(einrueckung(this.getDepth()));
 			
 			if(inInteger == 10 ) {
 				System.out.print("Enter");
@@ -113,7 +113,6 @@ class TrieNode implements ITrieNode {
 			else
 				System.out.println("");
 			partOfKeyToTrieNode.get(inInteger).printTrieNode();
-//			depth--;
 		}
 	}
 
@@ -143,8 +142,6 @@ class TrieNode implements ITrieNode {
 			String convertString = this.symbol.toString();
 			Integer integerToGet = (int) convertString.charAt(0);
 
-			// System.out.println(integerToPut);
-
 			if(!partOfKeyToTrieNode.containsKey(integerToGet)) {
 				return null;
 			}
@@ -154,7 +151,6 @@ class TrieNode implements ITrieNode {
 			}
 		}
 		else {
-			// System.out.println(this.getValue());
 			return this.getValue();
 		}
 	}

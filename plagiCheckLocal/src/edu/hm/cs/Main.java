@@ -16,19 +16,38 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		IReader reader = new Reader(args[0]);
-		ArrayList<IToken> tokens = reader.readFile(reader.getPfad());
-		ArrayList<ITrie> tries = new Aux().wordsToTrie(tokens);
 		
-		Iterator<ITrie> itr = tries.iterator();
-		
-		while(itr.hasNext()) {
-			ITrie trie = itr.next();
+		for(int file = 0; file < args.length; file++) {
+			IReader reader = new Reader(args[file]);
+			ArrayList<IToken> tokens = reader.readFile(reader.getPfad());
+			ArrayList<ITrie> tries = new Aux().wordsToTrie(tokens);
 			
-			if(trie.rootHasValue()) {
-				trie.printTrie();
-			}	
+			System.out.println("\n\n################ FILE-NR: " + (file+1) + " ################");
+			
+			Iterator<ITrie> iteratorOverTries = tries.iterator();
+			
+			while(iteratorOverTries.hasNext()) {
+				ITrie trie = iteratorOverTries.next();
+				
+				if(trie.rootHasValue()) {
+					trie.printTrie();
+				}
+			}
 		}
+		
+//		IReader reader = new Reader(args[0]);
+//		ArrayList<IToken> tokens = reader.readFile(reader.getPfad());
+//		ArrayList<ITrie> tries = new Aux().wordsToTrie(tokens);
+//		
+//		Iterator<ITrie> itr = tries.iterator();
+//		
+//		while(itr.hasNext()) {
+//			ITrie trie = itr.next();
+//			
+//			if(trie.rootHasValue()) {
+//				trie.printTrie();
+//			}	
+//		}
 		
 		
 //		ITrieFactory factory = new TrieFactory();

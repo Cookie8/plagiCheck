@@ -77,7 +77,7 @@ public class BaseLexer implements ILexer {
 					}
 					else if(lexerStateIs == LexerState.FLOAT && isComma(symbolValue)) {
 						keepComma = symbolValue;
-						oldState = lexerStateIs; //hier noch den oldstate davor speichern
+						oldState = lexerStateIs; 
 					}
 					else if((lexerStateIs == LexerState.INT || lexerStateIs == LexerState.FLOAT) && 
 							isDigit(symbolValue) && isComma(keepComma)) {
@@ -125,8 +125,9 @@ public class BaseLexer implements ILexer {
 	}
 
 	private boolean checkLexerChageState(LexerState oldState, String line) {
-		if(oldState == LexerState.READY)
+		if(oldState == LexerState.READY)  {
 			return false;
+		}
 		else if(oldState == LexerState.INT && lexerStateIs == LexerState.COMMA) {
 			lexerStateIs = LexerState.FLOAT;
 			return false;
@@ -149,10 +150,12 @@ public class BaseLexer implements ILexer {
 				return false;
 			}
 		}
-		else if(oldState != lexerStateIs)
+		else if(oldState != lexerStateIs) {
 			return true;
-		else
+		}
+		else {
 			return false;
+		}
 	}
 
 	private LexerState getLexerState(int value) throws IllegalLexerException {

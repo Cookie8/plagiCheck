@@ -90,7 +90,20 @@ class TrieNode implements ITrieNode {
 			int inInteger = (int) key.next();
 			Character buchstabe = (char) inInteger;
 
-			System.out.print(einrueckung(this.getDepth()) + buchstabe);
+			System.out.print(einrueckung(this.getDepth()));	// + buchstabe);
+			
+			if(inInteger == 10 ) {
+				System.out.print("Enter");
+			}
+			else if(inInteger == 32) {
+				System.out.print("Whitespace");
+			}
+			else if(inInteger == 9) {
+				System.out.print("Tab");
+			}
+			else {
+				System.out.print(buchstabe);
+			}
 
 			if(partOfKeyToTrieNode.get(inInteger).getValue() != null) {
 				System.out.println(" -> Value = "

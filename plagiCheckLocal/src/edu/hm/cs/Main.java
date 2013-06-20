@@ -1,15 +1,13 @@
 package edu.hm.cs;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
+import edu.hm.cs.aligner.Displayer;
 import edu.hm.cs.aligner.ISelector;
 import edu.hm.cs.aligner.Selector;
-import edu.hm.cs.aux.Aux;
 import edu.hm.cs.input.IReader;
 import edu.hm.cs.input.Reader;
 import edu.hm.cs.token.IToken;
-import edu.hm.cs.triePackage.ITrie;
 
 public class Main {
 
@@ -22,8 +20,7 @@ public class Main {
 		for(int file = 0; file < args.length; file++) {
 			IReader reader = new Reader(args[file]);
 			ArrayList<IToken> tokens = reader.readFile(reader.getPfad());
-			
-			
+
 			selector.saveFiles(tokens);
 			
 			
@@ -45,5 +42,7 @@ public class Main {
 //				}
 //			}
 		}
+		
+		
 	}
 }

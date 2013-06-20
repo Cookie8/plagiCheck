@@ -31,15 +31,15 @@ public class BaseLexer implements ILexer {
 
 	@Override
 	public ArrayList<IToken> getToken() {
-		
-//		System.out.println("\n\n**************** Token-Ausgabe ****************\n");
+
+		// System.out.println("\n\n**************** Token-Ausgabe ****************\n");
 
 		int symbolValue = 0;
 		LexerState oldState = LexerState.READY;
 		String line = "";
 		ArrayList<IToken> tokens = new ArrayList<IToken>();
 		IToken actualToken;
-		
+
 		while(!isEOF) {
 			try {
 				if(overlap != 0) {
@@ -47,96 +47,99 @@ public class BaseLexer implements ILexer {
 						line = line + (char) keepComma;
 						oldState = getLexerState(keepComma);
 						keepComma = 0;
-						
+
 						actualToken = new Token(oldState, line);
 						tokens.add(actualToken);
-//						printToken(actualToken);
-						
-						line = ""+ (char)overlap;
+						// printToken(actualToken);
+
+						line = "" + (char) overlap;
 						oldState = lexerStateIs;
 					}
 					else {
 						lexerStateIs = getLexerState(overlap);
 						oldState = lexerStateIs;
-						line = line+(char)overlap;
+						line = line + (char) overlap;
 					}
 				}
-			
+
 				while((symbolValue = symbol.read()) != -1) {
-				
+
 					lexerStateIs = getLexerState(symbolValue);
 
 					if(checkLexerChageState(oldState, line)) {
 						overlap = symbolValue;
-						
-						toGetLexerState = line.charAt(line.length()-1);
+
+						toGetLexerState = line.charAt(line.length() - 1);
 						intToGetLexerState = toGetLexerState;
-						
+
 						if(isDigit(toGetLexerState) && keepComma != 0) {
 							oldState = getLexerState(toGetLexerState);
-							
-							actualToken = new Token(oldState, line); 							
+
+							actualToken = new Token(oldState, line);
 							tokens.add(actualToken);
-//							printToken(actualToken);
-							
+							// printToken(actualToken);
+
 						}
 						else {
-							actualToken = new Token(oldState, line); 							
+							actualToken = new Token(oldState, line);
 							tokens.add(actualToken);
-//							printToken(actualToken);
+							// printToken(actualToken);
 						}
-						
+
 						line = "";
 						break;
 					}
-					else if(lexerStateIs == LexerState.FLOAT && (isComma(symbolValue) || isColon(symbolValue))) {
+					else if(lexerStateIs == LexerState.FLOAT
+							&& (isComma(symbolValue) || isColon(symbolValue))) {
 						keepComma = symbolValue;
-						oldState = lexerStateIs; 
+						oldState = lexerStateIs;
 					}
-					else if((lexerStateIs == LexerState.INT || lexerStateIs == LexerState.FLOAT) && 
-							isDigit(symbolValue) && (isComma(keepComma) || isColon(keepComma))) {
-						line = line + (char)keepComma + (char)symbolValue;
+					else if((lexerStateIs == LexerState.INT || lexerStateIs == LexerState.FLOAT)
+							&& isDigit(symbolValue)
+							&& (isComma(keepComma) || isColon(keepComma))) {
+						line = line + (char) keepComma + (char) symbolValue;
 						keepComma = 0;
 						oldState = lexerStateIs;
 					}
 					else {
-						line = line+(char)symbolValue;
+						line = line + (char) symbolValue;
 						oldState = lexerStateIs;
 					}
-				
+
 				}
-			
+
 				if(symbolValue == -1) {
 					if(keepComma != 0) {
-						
-						toGetLexerState = line.charAt(line.length()-1);
+
+						toGetLexerState = line.charAt(line.length() - 1);
 						intToGetLexerState = toGetLexerState;
 						lexerStateIs = getLexerState(intToGetLexerState);
-						
-						actualToken = new Token(lexerStateIs, line); 						
+
+						actualToken = new Token(lexerStateIs, line);
 						tokens.add(actualToken);
-//						printToken(actualToken);
-												
+						// printToken(actualToken);
+
 						lexerStateIs = getLexerState(keepComma);
-						line = "" + (char)keepComma;
-						
-						actualToken = new Token(lexerStateIs, line); 
+						line = "" + (char) keepComma;
+
+						actualToken = new Token(lexerStateIs, line);
 						tokens.add(actualToken);
-//						printToken(actualToken);
+						// printToken(actualToken);
 
 					}
 					else {
-						actualToken = new Token(lexerStateIs, line); 						
+						actualToken = new Token(lexerStateIs, line);
 						tokens.add(actualToken);
-//						printToken(actualToken);
+						// printToken(actualToken);
 					}
-					
+
 					isEOF = true;
 				}
-		
+
 			}
 			catch(IllegalLexerException e) {
-				System.out.println("Zeichen "+(char)symbolValue+ " konnte nicht zugewiesen werden!");
+				System.out.println("Zeichen " + (char) symbolValue
+						+ " konnte nicht zugewiesen werden!");
 			}
 			catch(IOException e) {
 				// TODO Auto-generated catch block
@@ -147,17 +150,17 @@ public class BaseLexer implements ILexer {
 	}
 
 	private void printToken(IToken actualToken) {
-		
+
 		System.out.print("(\"");
-		
-		
+
 		if(actualToken.getValue().equals("\n")) {
-			System.out.println("\\n\", " +actualToken.getType()+ ")\n");
+			System.out.println("\\n\", " + actualToken.getType() + ")\n");
 		}
 		else {
-			System.out.print(actualToken.getValue()+ "\", " +actualToken.getType()+ ") ");
+			System.out.print(actualToken.getValue() + "\", "
+					+ actualToken.getType() + ") ");
 		}
-		
+
 		if(tokenCounter == 5) {
 			System.out.println();
 			tokenCounter = 0;
@@ -168,10 +171,11 @@ public class BaseLexer implements ILexer {
 	}
 
 	private boolean checkLexerChageState(LexerState oldState, String line) {
-		if(oldState == LexerState.READY)  {
+		if(oldState == LexerState.READY) {
 			return false;
 		}
-		else if(oldState == LexerState.INT && (lexerStateIs == LexerState.COMMA || lexerStateIs == LexerState.COLON)) {
+		else if(oldState == LexerState.INT
+				&& (lexerStateIs == LexerState.COMMA || lexerStateIs == LexerState.COLON)) {
 			lexerStateIs = LexerState.FLOAT;
 			return false;
 		}
@@ -261,7 +265,7 @@ public class BaseLexer implements ILexer {
 	private boolean isWhitSpace(int value) {
 		char sign = (char) value;
 
-		if(sign == ' ' || sign == '\n' || sign == '\t' || value == 13) {
+		if(sign == ' ' || sign == '\n' || sign == '\t' || value == 13 || sign == '\r') {
 			return true;
 		}
 		else {
@@ -285,6 +289,10 @@ public class BaseLexer implements ILexer {
 		}
 		// Kleinbuchstaben
 		else if(value >= 97 && value <= 122) {
+			return true;
+		}
+		else if(value == 196 || value == 228 || value == 214 || value == 246
+				|| value == 220 || value == 252 || value == 223) {
 			return true;
 		}
 		else {

@@ -32,7 +32,7 @@ public class BaseLexer implements ILexer {
 	@Override
 	public ArrayList<IToken> getToken() {
 		
-		System.out.println("\n\n**************** Token-Ausgabe ****************\n");
+//		System.out.println("\n\n**************** Token-Ausgabe ****************\n");
 
 		int symbolValue = 0;
 		LexerState oldState = LexerState.READY;
@@ -50,7 +50,7 @@ public class BaseLexer implements ILexer {
 						
 						actualToken = new Token(oldState, line);
 						tokens.add(actualToken);
-						printToken(actualToken);
+//						printToken(actualToken);
 						
 						line = ""+ (char)overlap;
 						oldState = lexerStateIs;
@@ -77,13 +77,13 @@ public class BaseLexer implements ILexer {
 							
 							actualToken = new Token(oldState, line); 							
 							tokens.add(actualToken);
-							printToken(actualToken);
+//							printToken(actualToken);
 							
 						}
 						else {
 							actualToken = new Token(oldState, line); 							
 							tokens.add(actualToken);
-							printToken(actualToken);
+//							printToken(actualToken);
 						}
 						
 						line = "";
@@ -115,20 +115,20 @@ public class BaseLexer implements ILexer {
 						
 						actualToken = new Token(lexerStateIs, line); 						
 						tokens.add(actualToken);
-						printToken(actualToken);
+//						printToken(actualToken);
 												
 						lexerStateIs = getLexerState(keepComma);
 						line = "" + (char)keepComma;
 						
 						actualToken = new Token(lexerStateIs, line); 
 						tokens.add(actualToken);
-						printToken(actualToken);
+//						printToken(actualToken);
 
 					}
 					else {
 						actualToken = new Token(lexerStateIs, line); 						
 						tokens.add(actualToken);
-						printToken(actualToken);
+//						printToken(actualToken);
 					}
 					
 					isEOF = true;
